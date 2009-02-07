@@ -73,7 +73,7 @@ echo("<table>\n");
 $g = 0;
 echo("<tr class='title'>");
 echo("<td>Name <a href='$_SERVER[PHP_SELF]?s=n&amp;o=a'>↑</a>"
-    ."<a href='$_SERVER[PHP_SELF]?s=n&amp;o=d'>↓</a></a></td>");
+    ."<a href='$_SERVER[PHP_SELF]?s=n&amp;o=d'>↓</a></td>");
 echo("<td>Size <a href='$_SERVER[PHP_SELF]?s=s&amp;o=a'>↑</a>"
     ."<a href='$_SERVER[PHP_SELF]?s=s&amp;o=d'>↓</a></td>");
 echo("<td>Date <a href='$_SERVER[PHP_SELF]?s=d&amp;o=a'>↑</a>"
