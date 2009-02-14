@@ -9,6 +9,7 @@ body { font-family:sans-serif; }
 .grey0 { background-color:#ddd; }
 .grey1 { background-color:#bbb; }
 .title { background-color:#eee; }
+.footer { border-top:1px solid black; background-color:#eee; font-size:small; text-align:right; }
 h1 { text-align:center; }
 table { margin:0px; border:0px; padding:2px; border-spacing:0px; border:1px dashed #000; margin-left:auto; margin-right:auto; }
 td { padding:.3em; }
@@ -80,9 +81,11 @@ echo("<td>Date <a href='$_SERVER[PHP_SELF]?s=d&amp;o=a'>↑</a>"
     ."<a href='$_SERVER[PHP_SELF]?s=d&amp;o=d'>↓</a></td>");
 echo("</tr>\n");
 // display items.
+$totalsize = 0;
 foreach($arr as $item)
 {
     list($n, $s, $d) = explode('\t', $item);
+    $totalsize += $s;
     if($s > 1024) {
         $s = (int) ($s / 1024);
         $u = "kiB";
@@ -97,6 +100,25 @@ foreach($arr as $item)
     echo("</tr>\n");
     $g ^= 1;
 }
+// display footer
+if($totalsize > 1024) {
+    if($totalsize > (1024 * 1024)) {
+        $total = (int) ($totalsize / (1024 * 1024));
+        $u = "MiB";
+    }
+    else {
+        $total = (int) ($totalsize / 1024);
+        $u = "kiB";
+    }
+}
+else {
+    $u = "B";
+}
+echo("<tr class='footer'>");
+echo("<td class='footer'>" . count($arr) . " files</td>");
+echo("<td class='footer'>$total $u</td>");
+echo("<td class='footer'></td>");
+echo("</tr>\n");
 echo("</table>\n");
 
 ?>
