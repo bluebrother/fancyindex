@@ -60,13 +60,15 @@ foreach($files as $item)
     $arr[$index] = implode('\t', array($item_name, $item_size, $item_date));
 }
 // sort items
-if($order == "d") {
-    krsort($arr);
-    $o = 'a';
-}
-else {
-    ksort($arr);
-    $o = 'd';
+if(count($arr) > 0) {
+    if($order == "d") {
+        krsort($arr);
+        $o = 'a';
+    }
+    else {
+        ksort($arr);
+        $o = 'd';
+    }
 }
 
 // display table header
@@ -82,23 +84,24 @@ echo("<td>Date <a href='$_SERVER[PHP_SELF]?s=d&amp;o=a'>↑</a>"
 echo("</tr>\n");
 // display items.
 $totalsize = 0;
-foreach($arr as $item)
-{
-    list($n, $s, $d) = explode('\t', $item);
-    $totalsize += $s;
-    if($s > 1024) {
-        $s = (int) ($s / 1024);
-        $u = "kiB";
+if(count($arr) > 0) {
+    foreach($arr as $item) {
+        list($n, $s, $d) = explode('\t', $item);
+        $totalsize += $s;
+        if($s > 1024) {
+            $s = (int) ($s / 1024);
+            $u = "kiB";
+        }
+        else {
+            $u = "B";
+        }
+        echo("<tr class='grey$g'>");
+        echo("<td class='n$g'><a href='$n'>$n</a></td>");
+        echo("<td class='s$g'>$s $u</td>");
+        echo("<td class='d$g'>$d</td>");
+        echo("</tr>\n");
+        $g ^= 1;
     }
-    else {
-        $u = "B";
-    }
-    echo("<tr class='grey$g'>");
-    echo("<td class='n$g'><a href='$n'>$n</a></td>");
-    echo("<td class='s$g'>$s $u</td>");
-    echo("<td class='d$g'>$d</td>");
-    echo("</tr>\n");
-    $g ^= 1;
 }
 // display footer
 if($totalsize > 1024) {
@@ -112,6 +115,7 @@ if($totalsize > 1024) {
     }
 }
 else {
+    $total = $totalsize;
     $u = "B";
 }
 echo("<tr class='footer'>");
