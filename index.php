@@ -38,7 +38,7 @@ echo("." . $sort . "1 { background-color:#aaa; }\n");
 $base = preg_replace(':.*/:', '', dirname($_SERVER['PHP_SELF']));
 echo("<h1>Index of $base</h1>");
 
-$files = glob("*");
+$files = glob("*", GLOB_MARK);
 
 // create list of items.
 foreach($files as $item)
