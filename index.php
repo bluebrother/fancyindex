@@ -46,6 +46,8 @@ foreach($files as $item)
     // hide ourselves.
     if($item == basename($_SERVER['PHP_SELF']))
         continue;
+    if($item == "index.txt")
+        continue;
     $item_size = filesize($item);
     $item_date = date("Y-m-d H:i:s", filemtime($item));
     $item_name = $item;
@@ -124,6 +126,9 @@ echo("<td class='footer'>$total $u</td>");
 echo("<td class='footer'></td>");
 echo("</tr>\n");
 echo("</table>\n");
+
+// check for a file index.txt. If it exists, add it to the output
+@readfile("index.txt");
 
 ?>
 </body>
