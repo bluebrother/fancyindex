@@ -9,6 +9,9 @@ created after the need to list the contents of a folder but Apaches'
 links is done with the option ``FancyIndex`` this script is named
 ``fancyindex``.
 
+The script looks for a file ``index.txt`` which will inserted as-is into the
+HTML output. PHP code won't be parsed, HTML tags for formatting the text work.
+
 Prerequisites
 -------------
 A webserver with PHP. Tested on Apache with PHP5.
