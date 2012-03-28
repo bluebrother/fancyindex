@@ -40,6 +40,8 @@ echo("." . $sort . "1 { background-color:#aaa; }\n");
 $base = preg_replace(':.*/:', '', dirname($_SERVER['PHP_SELF']));
 echo("<h1>Index of $base</h1>");
 
+date_default_timezone_set("Europe/Berlin");
+
 $files = glob("*", GLOB_MARK);
 
 // create list of items.
@@ -51,7 +53,7 @@ foreach($files as $item)
     if($item == "index.txt")
         continue;
     $item_size = filesize($item);
-    $item_date = date("Y-m-d H:i:s", filemtime($item));
+    $item_date = date("Y-m-d H:i:s O", filemtime($item));
     $item_name = $item;
 
     if($sort == "n")

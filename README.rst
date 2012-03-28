@@ -18,6 +18,12 @@ Installation
 Drop the file ``index.php`` into the directory you want to get listed and make
 sure the webserver uses it as index file.
 
+Configuration
+-------------
+PHP requires explicitly setting the timezone before using it. The script uses
+``Europe/Berlin`` as timezone. Depending on your location this might need
+to get adjusted.
+
 License
 -------
 Licensed under the terms of the GPL. See the file ``COPYING`` for details.
