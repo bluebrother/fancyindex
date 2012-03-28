@@ -33,4 +33,7 @@ to get adjusted.
 License
 -------
 Licensed under the terms of the GPL. See the file ``COPYING`` for details.
+Icons taken from the `Tango Icon Library`_, licensed as Public Domain.
+
+.. _Tango Icon Library: http://tango.freedesktop.org/Tango_Icon_Library
 
