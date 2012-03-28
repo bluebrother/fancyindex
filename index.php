@@ -3,7 +3,10 @@
 <head>
 <meta http-equiv='content-type' content='text/html; charset=utf-8' />
 <meta name='MSSmartTagsPreventParsing' content='TRUE' />
-<title>Index</title>
+<?php
+$base = preg_replace(':.*/:', '', dirname($_SERVER['PHP_SELF']));
+echo("<title>Index of $base</title>");
+?>
 <style type='text/css'>
 body { font-family:sans-serif; }
 .grey0 { background-color:#ddd; }
@@ -37,7 +40,6 @@ echo("." . $sort . "1 { background-color:#aaa; }\n");
 <body>
 
 <?php
-$base = preg_replace(':.*/:', '', dirname($_SERVER['PHP_SELF']));
 echo("<h1>Index of $base</h1>");
 
 date_default_timezone_set("Europe/Berlin");
