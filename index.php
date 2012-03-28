@@ -46,6 +46,11 @@ date_default_timezone_set("Europe/Berlin");
 
 $files = glob("*", GLOB_MARK);
 
+// add parent folder if it's readable.
+if(is_readable("../")) {
+    array_push($files, "../");
+}
+
 // create list of items.
 foreach($files as $item)
 {

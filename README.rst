@@ -12,6 +12,9 @@ links is done with the option ``FancyIndex`` this script is named
 The script looks for a file ``index.txt`` which will inserted as-is into the
 HTML output. PHP code won't be parsed, HTML tags for formatting the text work.
 
+A link to the parent folder will be shown (using ``..``) if the parent folder
+is readable for PHP.
+
 Prerequisites
 -------------
 A webserver with PHP. Tested on Apache with PHP5.
