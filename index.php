@@ -19,6 +19,8 @@ a:hover { text-decoration:underline; }
 <?php
 // generate style for order column hilighting
 // sort column and order. Assume (n)ame and (a)scending if unset.
+$sort = "n";
+$order = "a";
 if(array_key_exists('s', $_GET))
     $sort = $_GET['s'];
 if($sort != "n" && $sort != "d" && $sort != "s")
