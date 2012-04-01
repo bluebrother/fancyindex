@@ -131,12 +131,14 @@ if(count($arr) > 0) {
         }
         if(is_dir($n)) {
             $i = $icon_folder;
+            $a = "[folder]";
         }
         else {
             $i = $icon_file;
+            $a = "[file]";
         }
         echo("<tr class='grey$g'>");
-        echo("<td class='n$g'><img src='$i'/>&nbsp;<a href='$n'>$n</a></td>");
+        echo("<td class='n$g'><img src='$i' alt='$a'/>&nbsp;<a href='$n'>$n</a></td>");
         echo("<td class='s$g'>$s $u</td>");
         echo("<td class='d$g'>$d</td>");
         echo("</tr>\n");
