@@ -129,7 +129,11 @@ $totalsize = 0;
 if(count($arr) > 0) {
     foreach($arr as $item) {
         $totalsize += $item["size"];
-        if($item["size"] > 1024) {
+        if($item["size"] > 1024 * 1024) {
+            $item["size"] = (int) ($item["size"] / 1024 / 1024);
+            $u = "MiB";
+        }
+        else if($item["size"] > 1024) {
             $item["size"] = (int) ($item["size"] / 1024);
             $u = "kiB";
         }
