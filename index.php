@@ -65,11 +65,11 @@ $icon_file = "data:image/png;base64,"
 ."h4yCBCGT3T3Isoy/KDHGfDZNcz2SZIx547/0BVRRX7n8uT/sAAAAAElFTkSuQmCC";
 
 
-$files = glob("*", GLOB_MARK);
+$files = glob("*");
 
 // add parent folder if it's readable.
 if(is_readable("../")) {
-    array_push($files, "../");
+    array_push($files, "..");
 }
 
 // create list of items.
@@ -91,7 +91,14 @@ foreach($files as $item)
     if($sort == "s")
         $index = $item_size;
 
-    $arr[$index] = implode('\t', array($item_name, $item_size, $item_date));
+    if(is_link($item)) {
+        $item_link = readlink($item);
+    }
+    else {
+        $item_link = "";
+    }
+
+    $arr[$index] = implode('\t', array($item_name, $item_size, $item_date, $item_link));
 }
 // sort items
 if(count($arr) > 0) {
@@ -120,7 +127,7 @@ echo("</tr>\n");
 $totalsize = 0;
 if(count($arr) > 0) {
     foreach($arr as $item) {
-        list($n, $s, $d) = explode('\t', $item);
+        list($n, $s, $d, $l) = explode('\t', $item);
         $totalsize += $s;
         if($s > 1024) {
             $s = (int) ($s / 1024);
@@ -138,7 +145,14 @@ if(count($arr) > 0) {
             $a = "[file]";
         }
         echo("<tr class='grey$g'>");
-        echo("<td class='n$g'><img src='$i' alt='$a'/>&nbsp;<a href='$n'>$n</a></td>");
+        echo("<td class='n$g'><img src='$i' alt='$a'/>&nbsp;<a href='$n'>");
+        if($l == "") {
+            echo("$n");
+        }
+        else {
+            echo("<i>$n → $l</i>");
+        }
+        echo("</a></td>");
         echo("<td class='s$g'>$s $u</td>");
         echo("<td class='d$g'>$d</td>");
         echo("</tr>\n");
