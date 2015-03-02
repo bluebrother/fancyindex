@@ -13,6 +13,7 @@ body { font-family:sans-serif; }
 .grey1 { background-color:#bbb; }
 .title { background-color:#eee; }
 .footer { border-top:1px solid black; background-color:#eee; font-size:small; text-align:right; }
+.symlink { font-style:italic; }
 h1 { text-align:center; }
 table { margin:0px; border:0px; padding:2px; border-spacing:0px; border:1px dashed #000; margin-left:auto; margin-right:auto; }
 td { padding:.3em; }
@@ -73,6 +74,7 @@ if(is_readable("../")) {
 }
 
 // create list of items.
+$arr = array();
 foreach($files as $item)
 {
     // hide ourselves.
@@ -84,21 +86,17 @@ foreach($files as $item)
     $item_date = date("Y-m-d H:i:s O", filemtime($item));
     $item_name = $item;
 
-    if($sort == "n")
-        $index = $item_name;
     if($sort == "d")
         $index = $item_date;
-    if($sort == "s")
+    else if($sort == "s")
         $index = $item_size;
+    else
+        $index = $item_name;
 
-    if(is_link($item)) {
-        $item_link = readlink($item);
-    }
-    else {
-        $item_link = "";
-    }
+    $item_link = readlink($item);
 
-    $arr[$index] = implode('\t', array($item_name, $item_size, $item_date, $item_link));
+    $arr[$index] = array("name" => $item_name, "size" => $item_size,
+                         "date" => $item_date, "link" => $item_link);
 }
 // sort items
 if(count($arr) > 0) {
@@ -127,16 +125,15 @@ echo("</tr>\n");
 $totalsize = 0;
 if(count($arr) > 0) {
     foreach($arr as $item) {
-        list($n, $s, $d, $l) = explode('\t', $item);
-        $totalsize += $s;
-        if($s > 1024) {
-            $s = (int) ($s / 1024);
+        $totalsize += $item["size"];
+        if($item["size"] > 1024) {
+            $item["size"] = (int) ($item["size"] / 1024);
             $u = "kiB";
         }
         else {
             $u = "B";
         }
-        if(is_dir($n)) {
+        if(is_dir($item["name"])) {
             $i = $icon_folder;
             $a = "[folder]";
         }
@@ -145,16 +142,16 @@ if(count($arr) > 0) {
             $a = "[file]";
         }
         echo("<tr class='grey$g'>");
-        echo("<td class='n$g'><img src='$i' alt='$a'/>&nbsp;<a href='$n'>");
-        if($l == "") {
-            echo("$n");
+        echo("<td class='n$g'><img src='$i' alt='$a'/>&nbsp;<a href='$item[name]'>");
+        if(!is_string($item["link"])) {
+            echo("$item[name]");
         }
         else {
-            echo("<i>$n → $l</i>");
+            echo("<span class='symlink'>$item[name] → $item[link]</span>");
         }
         echo("</a></td>");
-        echo("<td class='s$g'>$s $u</td>");
-        echo("<td class='d$g'>$d</td>");
+        echo("<td class='s$g'>$item[size] $u</td>");
+        echo("<td class='d$g'>$item[date]</td>");
         echo("</tr>\n");
         $g ^= 1;
     }
