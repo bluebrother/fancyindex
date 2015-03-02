@@ -93,7 +93,10 @@ foreach($files as $item)
     else
         $index = $item_name;
 
-    $item_link = readlink($item);
+    if(is_dir($item) && $item !== "..")
+        $item_link = readlink($item);
+    else
+        $item_link = false;
 
     $arr[$index] = array("name" => $item_name, "size" => $item_size,
                          "date" => $item_date, "link" => $item_link);
@@ -111,7 +114,7 @@ if(count($arr) > 0) {
 }
 
 // display table header
-echo("<table>\n");
+echo("<table summary='Folder Listing'>\n");
 $g = 0;
 echo("<tr class='title'>");
 echo("<td>Name <a href='$_SERVER[PHP_SELF]?s=n&amp;o=a'>↑</a>"
