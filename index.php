@@ -27,11 +27,11 @@ $sort = "n";
 $order = "a";
 if(array_key_exists('s', $_GET))
     $sort = $_GET['s'];
-if($sort != "n" && $sort != "d" && $sort != "s")
+if($sort !== "n" && $sort !== "d" && $sort !== "s")
     $sort = "n";
 if(array_key_exists('o', $_GET))
     $order = $_GET['o'];
-if($order != "a" && $order != "d")
+if($order !== "a" && $order !== "d")
     $order = "a";
 echo("." . $sort . "0 { background-color:#ccc; }\n");
 echo("." . $sort . "1 { background-color:#aaa; }\n");
@@ -86,9 +86,9 @@ foreach($files as $item)
     $item_date = date("Y-m-d H:i:s O", filemtime($item));
     $item_name = $item;
 
-    if($sort == "d")
+    if($sort === "d")
         $index = $item_date;
-    else if($sort == "s")
+    else if($sort === "s")
         $index = $item_size;
     else
         $index = $item_name;
@@ -100,7 +100,7 @@ foreach($files as $item)
 }
 // sort items
 if(count($arr) > 0) {
-    if($order == "d") {
+    if($order === "d") {
         krsort($arr);
         $o = 'a';
     }
