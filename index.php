@@ -2,18 +2,32 @@
 date_default_timezone_set("Europe/Berlin");
 
 
+function sorter($key, $order) {
+    return function ($a, $b) use ($key, $order) {
+        if(is_integer($a[$key]))
+            return ($a[$key] - $b[$key]) * $order;
+        else
+            return strnatcmp($a[$key], $b[$key]) * $order;
+    };
+}
+
 function createtable()
 {
-    $sort = "n";
-    $order = "a";
-    if(array_key_exists('s', $_GET))
-        $sort = $_GET['s'];
-    if($sort !== "n" && $sort !== "d" && $sort !== "s")
-        $sort = "n";
-    if(array_key_exists('o', $_GET))
-        $order = $_GET['o'];
-    if($order !== "a" && $order !== "d")
-        $order = "a";
+    $sortkey = "name";
+    if(array_key_exists('s', $_GET)) {
+        if($_GET['s'] === "d")
+            $sortkey = "date";
+        else if($_GET['s'] === "s")
+            $sortkey = "size";
+        else
+            $sortkey = "name";
+    }
+    $sortorder = 1;
+    if(array_key_exists('o', $_GET)) {
+        if($_GET['o'] === "d")
+            $sortorder = -1;
+    }
+
     $files = glob("*");
 
     // add parent folder if it's readable.
@@ -34,31 +48,17 @@ function createtable()
         $item_date = date("Y-m-d H:i:s O", filemtime($item));
         $item_name = $item;
 
-        if($sort === "d")
-            $index = $item_date;
-        else if($sort === "s")
-            $index = $item_size;
-        else
-            $index = $item_name;
-
         if(is_dir($item) && $item !== "..")
             $item_link = readlink($item);
         else
             $item_link = false;
 
-        $arr[$index] = array("name" => $item_name, "size" => $item_size,
-                             "date" => $item_date, "link" => $item_link);
+        $arr[] = array("name" => $item_name, "size" => $item_size,
+                       "date" => $item_date, "link" => $item_link);
     }
     // sort items
     if(count($arr) > 0) {
-        if($order === "d") {
-            krsort($arr);
-            $o = 'a';
-        }
-        else {
-            ksort($arr);
-            $o = 'd';
-        }
+        usort($arr, sorter($sortkey, $sortorder));
     }
 
     // display table header
