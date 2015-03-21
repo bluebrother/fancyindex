@@ -62,15 +62,16 @@ function createtable()
     }
 
     // display table header
-    echo("<table summary='Folder Listing'>\n");
+    echo("<table summary='Folder Listing' id='ls'>\n");
     echo("<thead><tr class='title'>");
-    echo("<td>Name <a href='$_SERVER[PHP_SELF]?s=n&amp;o=a'>↑</a>"
-        ."<a href='$_SERVER[PHP_SELF]?s=n&amp;o=d'>↓</a></td>");
-    echo("<td>Size <a href='$_SERVER[PHP_SELF]?s=s&amp;o=a'>↑</a>"
-        ."<a href='$_SERVER[PHP_SELF]?s=s&amp;o=d'>↓</a></td>");
-    echo("<td>Date <a href='$_SERVER[PHP_SELF]?s=d&amp;o=a'>↑</a>"
-        ."<a href='$_SERVER[PHP_SELF]?s=d&amp;o=d'>↓</a></td>");
+    echo("<th>Name <span class='sort'><a href='$_SERVER[PHP_SELF]?s=n&amp;o=a'>↑</a>"
+        ."<a href='$_SERVER[PHP_SELF]?s=n&amp;o=d'>↓</a></span></th>");
+    echo("<th>Size <span class='sort'><a href='$_SERVER[PHP_SELF]?s=s&amp;o=a'>↑</a>"
+        ."<a href='$_SERVER[PHP_SELF]?s=s&amp;o=d'>↓</a></span></th>");
+    echo("<th>Date <span class='sort'><a href='$_SERVER[PHP_SELF]?s=d&amp;o=a'>↑</a>"
+        ."<a href='$_SERVER[PHP_SELF]?s=d&amp;o=d'>↓</a></span></th>");
     echo("</tr></thead>\n");
+    echo("<tbody>\n");
     // display items.
     $g = 0;
     $totalsize = 0;
@@ -130,6 +131,7 @@ function createtable()
         $total = $totalsize;
         $u = "B";
     }
+    echo("</tbody>\n");
     echo("<tr class='footer'>");
     echo("<td class='footer'>" . count($arr) . " files</td>");
     echo("<td class='footer'>$total $u</td>");
