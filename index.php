@@ -90,11 +90,9 @@ function createtable()
                 $u = "B";
             }
             if(is_dir($item["name"])) {
-                $i = $icon_folder;
                 $a = "folder";
             }
             else {
-                $i = $icon_file;
                 $a = "file";
             }
             echo("<tr class='grey$g'>");
