@@ -48,7 +48,7 @@ function createtable()
         $item_date = date("Y-m-d H:i:s O", filemtime($item));
         $item_name = $item;
 
-        if(is_dir($item) && $item !== "..")
+        if(is_link($item))
             $item_link = readlink($item);
         else
             $item_link = false;
