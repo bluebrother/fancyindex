@@ -45,7 +45,7 @@ function createtable()
         if($item == "index.txt")
             continue;
         $item_size = filesize($item);
-        $item_date = date("Y-m-d H:i:s O", filemtime($item));
+        $item_date = date("Y-m-d H:i:s", filemtime($item));
         $item_name = $item;
 
         if(is_link($item))
@@ -97,7 +97,7 @@ function createtable()
             }
             echo("<tr class='grey$g'>");
             $cls = ($sort === "n") ? "high$g" : "";
-            echo("<td class='n$g $cls'><span class='$a'>&nbsp;</span>");
+            echo("<td class='n$g $cls'><div class='$a'>");
             echo("<a href='$item[name]'>");
             if(is_string($item["link"])) {
                 echo("<span class='symlink'>$item[name] → $item[link]</span>");
@@ -105,9 +105,9 @@ function createtable()
             else {
                 echo("$item[name]");
             }
-            echo("</a></td>");
+            echo("</a></div></td>");
             $cls = ($sort === "s") ? $cls = "high$g" : "";
-            echo("<td class='s$g $cls'>$item[size] $u</td>");
+            echo("<td class='s$g $cls'>$item[size]&nbsp;$u</td>");
             $cls = ($sort === "d") ? $cls = "high$g" : "";
             echo("<td class='d$g $cls'>$item[date]</td>");
             echo("</tr>\n");
@@ -131,8 +131,8 @@ function createtable()
     }
     echo("</tbody>\n");
     echo("<tr class='footer'>");
-    echo("<td class='footer'>" . count($arr) . " files</td>");
-    echo("<td class='footer'>$total $u</td>");
+    echo("<td class='footer'>" . count($arr) . "&nbsp;files</td>");
+    echo("<td class='footer'>$total&nbsp;$u</td>");
     echo("<td class='footer'></td>");
     echo("</tr>\n");
     echo("</table>\n");
@@ -146,11 +146,13 @@ if($title === "") $title = $_SERVER['HTTP_HOST'];
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>
 <head>
-<meta http-equiv='content-type' content='text/html; charset=utf-8' />
-<meta name='MSSmartTagsPreventParsing' content='TRUE' />
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="dark light">
 <title><?php echo($title); ?></title>
 <style type='text/css'>
-body { font-family:sans-serif; }
+body { font-family:verdana,sans-serif; background-color:#fff; }
 .grey0 { background-color:#ddd; }
 .grey1 { background-color:#bbb; }
 .high0 { background-color:#ccc; }
@@ -170,13 +172,24 @@ a:hover { text-decoration:underline; }
 .file {
   background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH1QQWFA84umAmQgAAANpJREFUOMutkj1uhDAQhb8HSLtbISGfgZ+zbJkix0HmFhwhUdocBnMBGvqtTIqIFSReWKK8aix73nwzHrVt+zEMwwvH9FrX9TsA1trpqKy10+yUzME4jnjvAZB0LzXHkojjmDRNVyh3A+89zrlVwlKSqKrqVy/J8lAUxSZBSMny4ZLgp54iyPM8UPHGNJ2IomibAKDv+9VlWZbABbgB5/0WQgSSkC4PF2JF4JzbHN430c4vhAm0TyCJruuClefph4yCBCGT3T3Isoy/KDHGfDZNcz2SZIx547/0BVRRX7n8uT/sAAAAAElFTkSuQmCC')
     no-repeat left center;
-  padding-left:16px;
+  padding-left:24px;
 }
 .folder {
   background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAN1wAADdcBQiibeAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAHCSURBVDiNpZAxa5NRFIafc+9XLCni4BC6FBycMnbrLpkcgtDVX6C70D/g4lZX/4coxLlgxFkpiiSSUGm/JiXfveee45AmNlhawXc53HvPee55X+l2u/yPqt3d3Tfu/viatwt3fzIYDI5uBJhZr9fr3TMzzAx3B+D09PR+v98/7HQ6z5fNOWdCCGU4HH6s67oAVDlnV1UmkwmllBUkhMD29nYHeLuEAkyn06qU8qqu64MrgIyqYmZrkHa73drc3KTVahFjJITAaDRiPB4/XFlQVVMtHH5IzJo/P4EA4MyB+erWPQB7++zs7ccYvlU5Z08pMW2cl88eIXLZeDUpXzsBkNQ5eP1+p0opmaoCTgzw6fjs6gLLsp58FB60t0DcK1Ul54yIEIMQ43Uj68pquDmCeJVztpwzuBNE2LgBoMVpslHMCUEAFgDVxQbzVAiA+aK5uGPmmDtZF3VpoUm2ArhqQaRiUjcMf81p1G60UEVhcjZfAFTVUkrgkS+jc06mDX9nvq4YhJ9nlxZExMwMEaHJRutOdWuIIsJFUoBSuTvHJ4YIfP46unV4qdlsjsBRZRtb/XfHd5+C8+P7+J8BIoxFwovfRxYhnhxjpzEAAAAASUVORK5CYII=')
     no-repeat left center;
-  padding-left:16px;
+  padding-left:24px;
 }
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #333;
+    }
+    table { border:1px dashed #ddd; }
+    .grey0 { background-color:#444; }
+    .grey1 { background-color:#222; }
+    .high0 { background-color:#333; }
+    .high1 { background-color:#111; }
+    .title { background-color:#555; }
+    .footer { border-top:1px solid grey; background-color:#333;
 </style>
 </head>
 <body>
