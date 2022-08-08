@@ -80,6 +80,7 @@ function createtable()
     // display items.
     $g = 0;
     $totalsize = 0;
+    $sort = array_key_exists("s", $_GET) ? $_GET["s"] : "n";
     if(count($arr) > 0) {
         foreach($arr as $item) {
             $totalsize += $item["size"];
@@ -101,7 +102,7 @@ function createtable()
                 $a = "file";
             }
             echo("<tr class='grey$g'>");
-            $cls = ($sort === "n") ? "high$g" : "";
+            $cls = ($sort === "n") ? "high$g" : "grey$g";
             echo("<td class='n$g $cls'><div class='$a'>");
             echo("<a href='$item[name]'>");
             if(is_string($item["link"])) {
@@ -111,9 +112,9 @@ function createtable()
                 echo("$item[name]");
             }
             echo("</a></div></td>");
-            $cls = ($sort === "s") ? $cls = "high$g" : "";
+            $cls = ($sort === "s") ? $cls = "high$g" : "grey$g";
             echo("<td class='s$g $cls'>$item[size]&nbsp;$u</td>");
-            $cls = ($sort === "d") ? $cls = "high$g" : "";
+            $cls = ($sort === "d") ? $cls = "high$g" : "grey$g";
             echo("<td class='d$g $cls'>$item[date]</td>");
             echo("</tr>\n");
             $g ^= 1;
