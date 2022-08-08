@@ -62,16 +62,21 @@ function createtable()
     }
 
     // display table header
+    $hdritems = array("n" => "Name", "s" => "Size", "d" => "Date");
     echo("<table summary='Folder Listing' id='ls'>\n");
-    echo("<thead><tr class='title'>");
-    echo("<th>Name <span class='sort'><a href='$_SERVER[PHP_SELF]?s=n&amp;o=a'>↑</a>"
-        ."<a href='$_SERVER[PHP_SELF]?s=n&amp;o=d'>↓</a></span></th>");
-    echo("<th>Size <span class='sort'><a href='$_SERVER[PHP_SELF]?s=s&amp;o=a'>↑</a>"
-        ."<a href='$_SERVER[PHP_SELF]?s=s&amp;o=d'>↓</a></span></th>");
-    echo("<th>Date <span class='sort'><a href='$_SERVER[PHP_SELF]?s=d&amp;o=a'>↑</a>"
-        ."<a href='$_SERVER[PHP_SELF]?s=d&amp;o=d'>↓</a></span></th>");
-    echo("</tr></thead>\n");
     echo("<tbody>\n");
+    echo("<thead><tr class='title'>\n");
+    foreach($hdritems as $key => $value) {
+        $direction = $key == "n" && !array_key_exists("s", $_GET) ? "d" : "a";
+        $view = $key == "n" && !array_key_exists("s", $_GET) ? "↓" : "";
+        if(array_key_exists("s", $_GET) && $_GET["s"] == $key
+                && array_key_exists("o", $_GET)) {
+            $direction = $_GET["o"] == "a" ? "d" : "a";
+            $view = $_GET["o"] == "a" ? "↓" :"↑";
+        }
+        echo("<th><a href='$_SERVER[PHP_SELF]?s=$key&amp;o=$direction'>$value&nbsp;$view</a></th>\n");
+    }
+    echo("</tr></thead>\n");
     // display items.
     $g = 0;
     $totalsize = 0;
@@ -166,8 +171,10 @@ table { margin:0px; border:0px; padding:2px;
   border-spacing:0px; border:1px dashed #000;
   margin-left:auto; margin-right:auto; }
 td { padding:.3em; }
+th { padding:.5em; }
 a { text-decoration:none; }
 a:hover { text-decoration:underline; }
+a:visited { color:#0000ff; }
 .s0, .s1 { text-align:right; }
 .file {
   background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH1QQWFA84umAmQgAAANpJREFUOMutkj1uhDAQhb8HSLtbISGfgZ+zbJkix0HmFhwhUdocBnMBGvqtTIqIFSReWKK8aix73nwzHrVt+zEMwwvH9FrX9TsA1trpqKy10+yUzME4jnjvAZB0LzXHkojjmDRNVyh3A+89zrlVwlKSqKrqVy/J8lAUxSZBSMny4ZLgp54iyPM8UPHGNJ2IomibAKDv+9VlWZbABbgB5/0WQgSSkC4PF2JF4JzbHN430c4vhAm0TyCJruuClefph4yCBCGT3T3Isoy/KDHGfDZNcz2SZIx547/0BVRRX7n8uT/sAAAAAElFTkSuQmCC')
