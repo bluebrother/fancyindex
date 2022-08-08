@@ -190,7 +190,10 @@ a:visited { color:#0000ff; }
 @media (prefers-color-scheme: dark) {
     body {
         background: #333;
+        color:#ccc;
     }
+    a { color:#eee; }
+    a:visited { color:#dddddd; }
     table { border:1px dashed #ddd; }
     .grey0 { background-color:#444; }
     .grey1 { background-color:#222; }
